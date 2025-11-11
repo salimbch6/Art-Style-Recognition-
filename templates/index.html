@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Art Style Classification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-b from-gray-100 to-gray-200 min-h-screen flex items-center justify-center">
+
+<div class="bg-white shadow-2xl rounded-3xl p-8 w-full max-w-xl text-center">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Art Style Classifier</h1>
+    
+    <form method="POST" enctype="multipart/form-data" class="space-y-4">
+        <input type="file" name="file" accept="image/*"
+               class="block w-full text-sm text-gray-500
+                      file:mr-4 file:py-2 file:px-4
+                      file:rounded-full file:border-0
+                      file:text-sm file:font-semibold
+                      file:bg-indigo-600 file:text-white
+                      hover:file:bg-indigo-700
+                      cursor-pointer">
+        <input type="url" name="url" placeholder="Or enter image URL"
+               class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg py-2 px-3">
+        <button type="submit"
+                class="w-full bg-indigo-600 text-white py-2 px-4 rounded-full font-bold hover:bg-indigo-700 transition-colors">
+            Predict
+        </button>
+    </form>
+
+    {% if filename %}
+    <div class="mt-6">
+        <h2 class="text-lg font-semibold text-gray-700 mb-2">Image</h2>
+        <img src="{{ filename if filename.startswith('http') else url_for('static', filename='uploads/' + filename.split('/')[-1]) }}"
+             alt="Uploaded Image"
+             class="mx-auto rounded-2xl shadow-lg max-h-96 object-contain">
+    </div>
+    {% endif %}
+
+    {% if prediction %}
+    <div class="mt-6 bg-indigo-50 border-l-4 border-indigo-600 p-4 rounded-lg">
+        <p class="text-xl font-semibold text-gray-800">Predicted Style:</p>
+        <p class="text-2xl font-bold text-indigo-700 mt-2">{{ prediction }}</p>
+    </div>
+    {% endif %}
+</div>
+
+<footer class="absolute bottom-4 w-full text-center text-gray-500 text-sm">
+    Powered by <strong>EfficientNet-B0</strong> & Flask
+</footer>
+
+</body>
+</html>
